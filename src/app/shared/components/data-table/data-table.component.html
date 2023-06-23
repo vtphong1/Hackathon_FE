@@ -1,0 +1,58 @@
+<table mat-table [dataSource]="rows" class="mat-elevation-z8 demo-table w-full">
+  <ng-container *ngFor="let column of columns" [matColumnDef]="column.columnDef">
+
+    <th mat-header-cell *matHeaderCellDef [style.width]="calcColumnWidth(column)">
+      {{column.header}}
+    </th>
+
+    <td mat-cell *matCellDef="let row">
+      <ng-container [ngSwitch]="column.columnDef">
+
+        <ng-container *ngSwitchCase="'action'">
+          <ng-container [ngTemplateOutlet]="actionTemplate ? actionTemplate : defaultActionTemplate"
+          [ngTemplateOutletContext]="{row: row}">
+          </ng-container>
+
+          <ng-template #defaultActionTemplate>
+            <ng-container *ngFor="let action of displayedActions">
+              <button mat-icon-button (click)="emitAction(action.id, row)">
+                <ng-container [ngSwitch]="action.id">
+                  <ng-container *ngSwitchDefault>
+                    <mat-icon [title]="action.label" [style.color]='action.color'
+                              class="icon-size-4">{{action.icon}}</mat-icon>
+                  </ng-container>
+                  <ng-container *ngSwitchCase="'lock'">
+                    <mat-icon [title]="row.status === 1 ? 'Lock' : 'UnLock'"
+                              [svgIcon]="row.status === 1 ? 'heroicons_outline:lock-open' : 'heroicons_outline:lock-closed'"
+                              [style.color]='row.status === 1 ? "green" : "red" ' class="icon-size-4"></mat-icon>
+                  </ng-container>
+                </ng-container>
+              </button>
+            </ng-container>
+          </ng-template>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'stt'">
+          <div>{{getRowIndex(row) + 1}}</div>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          <ng-container [ngTemplateOutlet]="rowTemplate ? rowTemplate : defaultRowTemplate"
+                        [ngTemplateOutletContext]="{row: row, column: column, index: getRowIndex(row)}"></ng-container>
+          <ng-template #defaultRowTemplate>
+            <div class="p-r-2" [innerHTML]="column.cellRenderer ? column.cellRenderer(row) : row[column.columnDef]"></div>
+          </ng-template>
+        </ng-container>
+      </ng-container>
+    </td>
+  </ng-container>
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator *ngIf="paginate" [pageSizeOptions]="[5, 10, 20]"
+               showFirstLastButtons
+               [pageSize]="paginate.size"
+               [length]="paginate.total"
+               (page)="changePage($event)">
+</mat-paginator>
+

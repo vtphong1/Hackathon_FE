@@ -1,0 +1,25 @@
+<!--    header-->
+<div class="header border-b-1 d-flex justify-content-between align-items-center p-16">
+  <div class="f-s-14 f-w-700">
+    {{data?.title || 'Xóa bản ghi'}}
+  </div>
+  <div>
+    <button mat-icon-button (click)="dialogRef.close()">
+      <mat-icon title="Edit">close</mat-icon>
+    </button>
+  </div>
+</div>
+<!--    content-->
+<div class="content p-16">
+  <div>{{data?.content || 'Bạn chắc chắn muốn xóa bản ghi?'}}</div>
+</div>
+<!--    footer-->
+<div class="footer p-16 d-flex justify-content-end">
+  <button mat-raised-button class="m-r-4" (click)="dialogRef.close()">
+    <span>Hủy bỏ</span>
+  </button>
+  <button mat-raised-button color="primary" (click)="dialogRef.close('success')">
+    <span>Xác nhận</span>
+  </button>
+</div>
+

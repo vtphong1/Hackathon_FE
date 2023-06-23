@@ -1,0 +1,16 @@
+<button (click)="open()">Open</button>
+<p class="text-red-500 f-w-500 p-t-1" style="font-size: 13px">fail</p>
+<mat-icon class="icon-size-4">delete</mat-icon>
+<app-data-table [rows]="users" [columns]="columns"></app-data-table>
+<form class="example-form" [formGroup]="formGroup">
+  <mat-form-field class="example-full-width custom-form-field">
+    <mat-label>Favorite food</mat-label>
+    <input matInput placeholder="Ex. Pizza" value="Sushi" formControlName="name">
+  </mat-form-field>
+    <app-error-message [control]="formGroup.get('name')" [name]="'Tên'"></app-error-message>
+
+  <mat-form-field class="example-full-width">
+    <mat-label>Favorite food</mat-label>
+    <input matInput placeholder="Ex. Pizza" value="Sushi" formControlName="age">
+  </mat-form-field>
+</form>
